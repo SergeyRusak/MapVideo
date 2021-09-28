@@ -19,11 +19,13 @@ public class InGameListener implements Listener {
     @EventHandler
     public void onPlayerTouch2(PlayerInteractEntityEvent e) {
         if (e.getRightClicked().getType().equals(EntityType.ITEM_FRAME)){
-            e.getPlayer().sendRawMessage("Ты кликнул по рамке");
             ItemFrame fr = (ItemFrame) e.getRightClicked();
+
+            e.setCancelled(true);
+            e.getPlayer().sendRawMessage("Ты кликнул по рамке");
             MapView mv = Bukkit.getServer().createMap(e.getPlayer().getWorld());
             mv.getRenderers().clear();
-            mv.getRenderers().add(new PlainMapRender());
+            mv.addRenderer(new PlainMapRender());
             ItemStack itemmap = new ItemStack(Material.FILLED_MAP);
             MapMeta mm = (MapMeta) itemmap.getItemMeta();
             mm.setMapView(mv);
